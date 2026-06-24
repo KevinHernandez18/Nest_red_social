@@ -44,3 +44,6 @@ export class PublicacionesController {
     return this.service.remove(id);
   }
 }
+
+
+//Desarrollo finalizado
