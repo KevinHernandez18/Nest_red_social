@@ -14,17 +14,26 @@ export class ReaccionesService {
   ) {}
 
   async create(dto: CreateReaccionDto) {
-    const reaccion = await this.reaccionModel.create(dto);
+    const reaccion = await this.reaccionModel.create(dto as any);
     return ResponseHelper.success(reaccion, 201);
   }
 
   async findAll() {
-    const reacciones = await this.reaccionModel.find({ activo: true });
+    const reacciones = await this.reaccionModel
+      .find({ activo: true })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
+
     return ResponseHelper.success(reacciones);
   }
 
   async findOne(id: string) {
-    const reaccion = await this.reaccionModel.findById(id);
+    const reaccion = await this.reaccionModel
+      .findById(id)
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
     if (!reaccion || !reaccion.activo) {
       throw new NotFoundException('Reacción no encontrada.');
     }
@@ -37,7 +46,11 @@ export class ReaccionesService {
       throw new NotFoundException('Reacción no encontrada.');
     }
 
-    const updated = await this.reaccionModel.findByIdAndUpdate(id, dto, { new: true });
+    const updated = await this.reaccionModel
+      .findByIdAndUpdate(id, dto, { new: true })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
     return ResponseHelper.success(updated);
   }
 
@@ -47,7 +60,11 @@ export class ReaccionesService {
       throw new NotFoundException('Reacción no encontrada.');
     }
 
-    const deleted = await this.reaccionModel.findByIdAndUpdate(id, { activo: false }, { new: true });
+    const deleted = await this.reaccionModel
+      .findByIdAndUpdate(id, { activo: false }, { new: true })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
     return ResponseHelper.success(deleted);
   }
 }

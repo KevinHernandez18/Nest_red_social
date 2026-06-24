@@ -5,6 +5,7 @@ export type ReaccionDocument = Reaccion & Document;
 
 @Schema({
     timestamps: true,
+    collection: 'reacciones',
 })
 export class Reaccion {
     @Prop({
@@ -12,20 +13,19 @@ export class Reaccion {
         type: Types.ObjectId,
         ref: 'Publicacion',
     })
-    publicacion_id!: Types.ObjectId;
+    publicacion!: Types.ObjectId;
 
     @Prop({
         required: true,
         type: Types.ObjectId,
         ref: 'User',
     })
-    usuario_id!: Types.ObjectId;
+    usuario!: Types.ObjectId;
 
     @Prop({
         required: true,
-        enum: ['like', 'love', 'haha', 'wow', 'sad', 'angry'],
     })
-    tipo!: string;
+    tipo_reaccion!: string;
 
     @Prop({
         default: true,
@@ -35,4 +35,4 @@ export class Reaccion {
 
 export const ReaccionSchema = SchemaFactory.createForClass(Reaccion);
 
-ReaccionSchema.index({ publicacion_id: 1, usuario_id: 1 }, { unique: true });
+ReaccionSchema.index({ publicacion: 1, usuario: 1 }, { unique: true });
