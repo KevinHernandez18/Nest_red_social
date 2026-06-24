@@ -8,21 +8,22 @@ export type ComentarioDocument = Comentario & Document;
 })
 export class Comentario {
     @Prop({
-        required: true,
         type: Types.ObjectId,
         ref: 'Publicacion',
+        default: null,
     })
-    publicacion_id!: Types.ObjectId;
+    publicacion_id?: Types.ObjectId | null;
 
     @Prop({
-        required: true,
         type: Types.ObjectId,
         ref: 'User',
+        default: null,
     })
-    usuario_id!: Types.ObjectId;
+    usuario_id?: Types.ObjectId | null;
 
     @Prop({
         required: true,
+        type: String,
     })
     contenido!: string;
 

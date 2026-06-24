@@ -1,19 +1,24 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 
 export class CreateComentarioDto {
-  @ApiProperty({ example: '64f0c1b2d3e4f5678901234a' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ example: '64f0c1b2d3e4f5678901234a' })
+  @IsOptional()
   @IsMongoId()
-  publicacion_id!: string;
+  publicacion_id?: string;
 
-  @ApiProperty({ example: '64f0c1b2d3e4f5678901234b' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ example: '64f0c1b2d3e4f5678901234b' })
+  @IsOptional()
   @IsMongoId()
-  usuario_id!: string;
+  usuario_id?: string;
 
-  @ApiProperty({ example: 'Excelente publicación' })
-  @IsNotEmpty()
+  @ApiPropertyOptional({ example: 'Excelente publicación' })
+  @IsOptional()
   @IsString()
-  contenido!: string;
+  contenido?: string;
+
+  @ApiPropertyOptional({ example: 'Excelente publicación' })
+  @IsOptional()
+  @IsString()
+  comentario?: string;
 }
