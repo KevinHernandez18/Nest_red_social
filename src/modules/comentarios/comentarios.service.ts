@@ -51,6 +51,32 @@ export class ComentariosService {
     return ResponseHelper.success(updated);
   }
 
+  async partialUpdate(id: string, dto: UpdateComentarioDto) {
+    const comentario = await this.comentarioModel.findById(id);
+    if (!comentario || !comentario.activo) {
+      throw new NotFoundException('Comentario no encontrado.');
+    }
+
+    const updated = await this.comentarioModel
+      .findByIdAndUpdate(id, { $set: dto }, { new: true })
+      .populate('usuario_id')
+      .populate('publicacion_id');
+    return ResponseHelper.success(updated);
+  }
+
+  async restore(id: string) {
+    const comentario = await this.comentarioModel.findById(id);
+    if (!comentario) {
+      throw new NotFoundException('Comentario no encontrado.');
+    }
+
+    const restored = await this.comentarioModel
+      .findByIdAndUpdate(id, { activo: true }, { new: true })
+      .populate('usuario_id')
+      .populate('publicacion_id');
+    return ResponseHelper.success(restored);
+  }
+
   async remove(id: string) {
     const comentario = await this.comentarioModel.findById(id);
     if (!comentario || !comentario.activo) {

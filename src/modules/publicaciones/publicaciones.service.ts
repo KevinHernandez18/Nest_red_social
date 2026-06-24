@@ -60,6 +60,32 @@ export class PublicacionesService {
     return ResponseHelper.success(updated);
   }
 
+  async partialUpdate(id: string, dto: UpdatePublicacionDto) {
+    const publicacion = await this.publicacionModel.findById(id);
+    if (!publicacion || !publicacion.activo) {
+      throw new NotFoundException('Publicación no encontrada.');
+    }
+
+    const updated = await this.publicacionModel
+      .findByIdAndUpdate(id, { $set: dto }, { new: true })
+      .populate('usuarios', '-password')
+      .lean();
+    return ResponseHelper.success(updated);
+  }
+
+  async restore(id: string) {
+    const publicacion = await this.publicacionModel.findById(id);
+    if (!publicacion) {
+      throw new NotFoundException('Publicación no encontrada.');
+    }
+
+    const restored = await this.publicacionModel
+      .findByIdAndUpdate(id, { activo: true }, { new: true })
+      .populate('usuarios', '-password')
+      .lean();
+    return ResponseHelper.success(restored);
+  }
+
   async remove(id: string) {
     const publicacion = await this.publicacionModel.findById(id);
     if (!publicacion || !publicacion.activo) {

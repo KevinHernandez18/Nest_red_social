@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SeguidoresController } from './seguidores.controller';
 import { SeguidoresService } from './seguidores.service';
-import { Seguidor, SeguidorSchema } from './schemas/seguidor.schema';
+import { Seguidores, SeguidorSchema } from './schemas/seguidor.schema';
 
 @Module({
   controllers: [SeguidoresController],
@@ -10,7 +10,7 @@ import { Seguidor, SeguidorSchema } from './schemas/seguidor.schema';
   imports: [
     MongooseModule.forFeature([
       {
-        name: Seguidor.name,
+        name: Seguidores.name,
         schema: SeguidorSchema,
       },
     ]),

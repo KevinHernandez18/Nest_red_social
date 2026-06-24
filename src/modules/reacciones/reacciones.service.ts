@@ -54,6 +54,34 @@ export class ReaccionesService {
     return ResponseHelper.success(updated);
   }
 
+  async partialUpdate(id: string, dto: UpdateReaccionDto) {
+    const reaccion = await this.reaccionModel.findById(id);
+    if (!reaccion || !reaccion.activo) {
+      throw new NotFoundException('Reacción no encontrada.');
+    }
+
+    const updated = await this.reaccionModel
+      .findByIdAndUpdate(id, { $set: dto }, { new: true })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
+    return ResponseHelper.success(updated);
+  }
+
+  async restore(id: string) {
+    const reaccion = await this.reaccionModel.findById(id);
+    if (!reaccion) {
+      throw new NotFoundException('Reacción no encontrada.');
+    }
+
+    const restored = await this.reaccionModel
+      .findByIdAndUpdate(id, { activo: true }, { new: true })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
+    return ResponseHelper.success(restored);
+  }
+
   async remove(id: string) {
     const reaccion = await this.reaccionModel.findById(id);
     if (!reaccion || !reaccion.activo) {

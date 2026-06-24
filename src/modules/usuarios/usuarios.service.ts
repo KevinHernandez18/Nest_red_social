@@ -82,6 +82,28 @@ export class UsuariosService {
         return ResponseHelper.success(updateuser, 200);
     }
 
+    async partialUpdate(id: string, dto: UpdateUserDto){
+        const user = await this.userModel.findById(id)
+        if (!user || !user.activo) {
+            throw new NotFoundException('Usuario no encontrado.');
+        }
+        if (dto.password) {
+            dto.password = await bcrypt.hash(dto.password, 10);
+        }
+        const updateuser = await this.userModel.findByIdAndUpdate(id, { $set: dto }, {new:true});
+        return ResponseHelper.success(updateuser, 200);
+    }
+
+    async restore(id: string){
+        const user = await this.userModel.findById(id)
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado.');
+        }
+
+        const restoredUser = await this.userModel.findByIdAndUpdate(id, {activo:true}, {new:true});
+        return ResponseHelper.success(restoredUser);
+    }
+
     async remove(id: string){
         const user = await this.userModel.findById(id)
         if (!user || !user.activo) {

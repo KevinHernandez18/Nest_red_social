@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type SeguidorDocument = Seguidor & Document;
+export type SeguidorDocument = Seguidores & Document;
 
 @Schema({
     timestamps: true,
 })
-export class Seguidor {
+export class Seguidores {
     @Prop({
         required: true,
         type: Types.ObjectId,
@@ -27,6 +27,6 @@ export class Seguidor {
     activo!: boolean;
 }
 
-export const SeguidorSchema = SchemaFactory.createForClass(Seguidor);
+export const SeguidorSchema = SchemaFactory.createForClass(Seguidores);
 
 SeguidorSchema.index({ seguidor_id: 1, seguido_id: 1 }, { unique: true });
