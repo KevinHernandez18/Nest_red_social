@@ -8,7 +8,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { ComentariosModule } from './modules/comentarios/comentarios.module';
 import { PublicacionesModule } from './modules/publicaciones/publicaciones.module';
 import { ReaccionesModule } from './modules/reacciones/reacciones.module';
-//mport { SeguidoresModule } from './modules/seguidores/seguidores.module';
+import { SeguidoresModule } from './modules/seguidores/seguidores.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { ReaccionesModule } from './modules/reacciones/reacciones.module';
     ComentariosModule,
     PublicacionesModule,
     ReaccionesModule,
-    //SeguidoresModule,
+    SeguidoresModule,
   ],
   controllers: [AppController],
   providers: [AppService],
