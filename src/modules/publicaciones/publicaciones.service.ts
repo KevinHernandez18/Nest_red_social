@@ -19,16 +19,32 @@ export class PublicacionesService {
   }
 
   async findAll() {
-    const publicaciones = await this.publicacionModel.find({ activo: true }).sort({ createdAt: -1 });
-    return ResponseHelper.success(publicaciones);
+    const publicaciones = await this.publicacionModel
+      .find({ activo: true })
+      .populate('usuarios', '-password')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const data = publicaciones.map((publicacion: any) => ({
+      ...publicacion,
+      usuario_id: publicacion.usuarios,
+    }));
+
+    return ResponseHelper.success(data);
   }
 
   async findOne(id: string) {
-    const publicacion = await this.publicacionModel.findById(id);
+    const publicacion = await this.publicacionModel
+      .findById(id)
+      .populate('usuarios', '-password')
+      .lean();
     if (!publicacion || !publicacion.activo) {
       throw new NotFoundException('Publicación no encontrada.');
     }
-    return ResponseHelper.success(publicacion);
+    return ResponseHelper.success({
+      ...publicacion,
+      usuario_id: publicacion.usuarios,
+    });
   }
 
   async update(id: string, dto: UpdatePublicacionDto) {
@@ -37,7 +53,10 @@ export class PublicacionesService {
       throw new NotFoundException('Publicación no encontrada.');
     }
 
-    const updated = await this.publicacionModel.findByIdAndUpdate(id, dto, { new: true });
+    const updated = await this.publicacionModel
+      .findByIdAndUpdate(id, dto, { new: true })
+      .populate('usuarios', '-password')
+      .lean();
     return ResponseHelper.success(updated);
   }
 
@@ -47,7 +66,10 @@ export class PublicacionesService {
       throw new NotFoundException('Publicación no encontrada.');
     }
 
-    const deleted = await this.publicacionModel.findByIdAndUpdate(id, { activo: false }, { new: true });
+    const deleted = await this.publicacionModel
+      .findByIdAndUpdate(id, { activo: false }, { new: true })
+      .populate('usuarios', '-password')
+      .lean();
     return ResponseHelper.success(deleted);
   }
 }

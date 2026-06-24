@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PublicacionesController } from './publicaciones.controller';
 import { PublicacionesService } from './publicaciones.service';
 import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema';
+import { User, UserSchema } from '../usuarios/schemas/user.schema';
 
 @Module({
   controllers: [PublicacionesController],
@@ -12,6 +13,10 @@ import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema';
       {
         name: Publicacion.name,
         schema: PublicacionSchema,
+      },
+      {
+        name: User.name,
+        schema: UserSchema,
       },
     ]),
   ],
