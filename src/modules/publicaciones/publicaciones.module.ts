@@ -1,8 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PublicacionesController } from './publicaciones.controller';
+import { PublicacionesService } from './publicaciones.service';
 import { Publicacion, PublicacionSchema } from './schemas/publicacion.schema';
 
 @Module({
+  controllers: [PublicacionesController],
+  providers: [PublicacionesService],
   imports: [
     MongooseModule.forFeature([
       {
