@@ -47,3 +47,4 @@ export class PublicacionesController {
 
 
 //Desarrollo finalizado
+// Línea para comprobar que el proyecto funciona correctamente y que la API de publicaciones está operativa.
