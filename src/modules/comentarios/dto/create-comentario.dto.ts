@@ -16,9 +16,4 @@ export class CreateComentarioDto {
   @IsOptional()
   @IsString()
   contenido?: string;
-
-  @ApiPropertyOptional({ example: 'Excelente publicación' })
-  @IsOptional()
-  @IsString()
-  comentario?: string;
 }

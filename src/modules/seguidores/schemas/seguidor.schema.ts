@@ -4,7 +4,10 @@ import { Document, Types } from 'mongoose';
 export type SeguidorDocument = Seguidores & Document;
 
 @Schema({
-    timestamps: true,
+    timestamps: {
+      createdAt: 'fecha_creacion',
+      updatedAt: 'fecha_modificacion',
+    },
 })
 export class Seguidores {
     @Prop({

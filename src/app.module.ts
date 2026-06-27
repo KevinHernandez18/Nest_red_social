@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RolesModule } from './modules/roles/roles.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
@@ -16,7 +16,13 @@ import { SeguidoresModule } from './modules/seguidores/seguidores.module';
       isGlobal: true,
     }),
     RolesModule,
-    MongooseModule.forRoot(process.env.MONGO_URI as string),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
+      }),
+      inject: [ConfigService],
+    }),
     UsuariosModule,
     ComentariosModule,
     PublicacionesModule,

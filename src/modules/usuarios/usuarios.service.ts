@@ -57,6 +57,11 @@ export class UsuariosService {
 
         return ResponseHelper.success({total, page, limit, data}, 201);
     }
+
+    async findInactive(){
+        const users = await this.userModel.find({ activo: false }).populate('rol_id');
+        return ResponseHelper.success(users);
+    }
     
     /**
      * Consulta por id de usuario

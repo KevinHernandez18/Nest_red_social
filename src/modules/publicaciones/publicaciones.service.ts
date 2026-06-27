@@ -22,13 +22,34 @@ export class PublicacionesService {
     const publicaciones = await this.publicacionModel
       .find({ activo: true })
       .populate('usuarios', '-password')
-      .sort({ createdAt: -1 })
+      .sort({ fecha_creacion: -1 })
       .lean();
 
-    const data = publicaciones.map((publicacion: any) => ({
-      ...publicacion,
-      usuario_id: publicacion.usuarios,
-    }));
+    const data = publicaciones.map((publicacion: any) => {
+      const { usuarios, ...rest } = publicacion;
+      return {
+        ...rest,
+        usuario_id: usuarios,
+      };
+    });
+
+    return ResponseHelper.success(data);
+  }
+
+  async findInactive() {
+    const publicaciones = await this.publicacionModel
+      .find({ activo: false })
+      .populate('usuarios', '-password')
+      .sort({ fecha_creacion: -1 })
+      .lean();
+
+    const data = publicaciones.map((publicacion: any) => {
+      const { usuarios, ...rest } = publicacion;
+      return {
+        ...rest,
+        usuario_id: usuarios,
+      };
+    });
 
     return ResponseHelper.success(data);
   }
@@ -41,9 +62,10 @@ export class PublicacionesService {
     if (!publicacion || !publicacion.activo) {
       throw new NotFoundException('Publicación no encontrada.');
     }
+    const { usuarios, ...rest } = publicacion;
     return ResponseHelper.success({
-      ...publicacion,
-      usuario_id: publicacion.usuarios,
+      ...rest,
+      usuario_id: usuarios,
     });
   }
 
@@ -57,7 +79,11 @@ export class PublicacionesService {
       .findByIdAndUpdate(id, dto, { new: true })
       .populate('usuarios', '-password')
       .lean();
-    return ResponseHelper.success(updated);
+    const { usuarios, ...rest } = updated as any;
+    return ResponseHelper.success({
+      ...rest,
+      usuario_id: usuarios,
+    });
   }
 
   async partialUpdate(id: string, dto: UpdatePublicacionDto) {
@@ -70,7 +96,11 @@ export class PublicacionesService {
       .findByIdAndUpdate(id, { $set: dto }, { new: true })
       .populate('usuarios', '-password')
       .lean();
-    return ResponseHelper.success(updated);
+    const { usuarios, ...rest } = updated as any;
+    return ResponseHelper.success({
+      ...rest,
+      usuario_id: usuarios,
+    });
   }
 
   async restore(id: string) {
@@ -83,7 +113,11 @@ export class PublicacionesService {
       .findByIdAndUpdate(id, { activo: true }, { new: true })
       .populate('usuarios', '-password')
       .lean();
-    return ResponseHelper.success(restored);
+    const { usuarios, ...rest } = restored as any;
+    return ResponseHelper.success({
+      ...rest,
+      usuario_id: usuarios,
+    });
   }
 
   async remove(id: string) {
@@ -96,6 +130,10 @@ export class PublicacionesService {
       .findByIdAndUpdate(id, { activo: false }, { new: true })
       .populate('usuarios', '-password')
       .lean();
-    return ResponseHelper.success(deleted);
+    const { usuarios, ...rest } = deleted as any;
+    return ResponseHelper.success({
+      ...rest,
+      usuario_id: usuarios,
+    });
   }
 }

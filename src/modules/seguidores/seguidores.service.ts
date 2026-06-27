@@ -40,6 +40,15 @@ export class SeguidoresService {
     return ResponseHelper.success(seguidores);
   }
 
+  async findInactive() {
+    const seguidores = await this.seguidorModel
+      .find({ activo: false })
+      .populate('seguidor_id', '-password')
+      .populate('seguido_id', '-password')
+      .exec();
+    return ResponseHelper.success(seguidores);
+  }
+
   async findOne(id: string) {
     const seguidor = await this.seguidorModel
       .findById(id)

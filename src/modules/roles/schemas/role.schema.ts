@@ -4,7 +4,10 @@ import { Document } from 'mongoose';
 export type RoleDocument = Role & Document;
 
 @Schema({
-    timestamps: true,
+    timestamps: {
+      createdAt: 'fecha_creacion',
+      updatedAt: 'fecha_modificacion',
+    },
 })
 export class Role {
     @Prop({

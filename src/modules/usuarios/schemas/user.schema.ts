@@ -8,7 +8,10 @@ export type UserDocument = User & Document;
  */
 
 @Schema({
-    timestamps: true,
+    timestamps: {
+      createdAt: 'fecha_creacion',
+      updatedAt: 'fecha_modificacion',
+    },
 })
 export class User {
     @Prop({

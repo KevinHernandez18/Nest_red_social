@@ -19,6 +19,11 @@ export class ReaccionesController {
     return this.service.findAll();
   }
 
+  @Get('inactivos')
+  findInactive() {
+    return this.service.findInactive();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);

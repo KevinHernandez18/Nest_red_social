@@ -26,6 +26,11 @@ export class UsuariosController {
         return this.usuariosService.findAll(search);
     }
 
+    @Get('inactivos')
+    findInactive(){
+        return this.usuariosService.findInactive();
+    }
+
     @Get(':id')
     findOne(
         @Param('id')

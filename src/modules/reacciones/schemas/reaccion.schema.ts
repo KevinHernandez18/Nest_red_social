@@ -4,7 +4,10 @@ import { Document, Types } from 'mongoose';
 export type ReaccionDocument = Reaccion & Document;
 
 @Schema({
-    timestamps: true,
+    timestamps: {
+      createdAt: 'fecha_creacion',
+      updatedAt: 'fecha_modificacion',
+    },
     collection: 'reacciones',
 })
 export class Reaccion {

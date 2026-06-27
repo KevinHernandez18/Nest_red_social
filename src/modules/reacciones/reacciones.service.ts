@@ -28,6 +28,16 @@ export class ReaccionesService {
     return ResponseHelper.success(reacciones);
   }
 
+  async findInactive() {
+    const reacciones = await this.reaccionModel
+      .find({ activo: false })
+      .populate('usuario', '-password')
+      .populate('publicacion')
+      .lean();
+
+    return ResponseHelper.success(reacciones);
+  }
+
   async findOne(id: string) {
     const reaccion = await this.reaccionModel
       .findById(id)

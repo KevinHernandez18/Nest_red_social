@@ -23,7 +23,16 @@ export class ComentariosService {
       .find({ activo: true })
       .populate('usuario_id')
       .populate('publicacion_id')
-      .sort({ createdAt: -1 });
+      .sort({ fecha_creacion: -1 });
+    return ResponseHelper.success(comentarios);
+  }
+
+  async findInactive() {
+    const comentarios = await this.comentarioModel
+      .find({ activo: false })
+      .populate('usuario_id')
+      .populate('publicacion_id')
+      .sort({ fecha_creacion: -1 });
     return ResponseHelper.success(comentarios);
   }
 

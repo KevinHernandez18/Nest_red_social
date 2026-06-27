@@ -4,7 +4,10 @@ import { Document, Types } from 'mongoose';
 export type PublicacionDocument = Publicacion & Document;
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'fecha_creacion',
+    updatedAt: 'fecha_modificacion',
+  },
   collection: 'publicaciones',
 })
 export class Publicacion {
@@ -29,4 +32,4 @@ export class Publicacion {
 
 export const PublicacionSchema = SchemaFactory.createForClass(Publicacion);
 
-PublicacionSchema.index({ usuarios: 1, createdAt: -1 });
+PublicacionSchema.index({ usuarios: 1, fecha_creacion: -1 });

@@ -4,7 +4,10 @@ import { Document, Types } from 'mongoose';
 export type ComentarioDocument = Comentario & Document;
 
 @Schema({
-    timestamps: true,
+    timestamps: {
+      createdAt: 'fecha_creacion',
+      updatedAt: 'fecha_modificacion',
+    },
 })
 export class Comentario {
     @Prop({
@@ -35,4 +38,4 @@ export class Comentario {
 
 export const ComentarioSchema = SchemaFactory.createForClass(Comentario);
 
-ComentarioSchema.index({ publicacion_id: 1, createdAt: -1 });
+ComentarioSchema.index({ publicacion_id: 1, fecha_creacion: -1 });
