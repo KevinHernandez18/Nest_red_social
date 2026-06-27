@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Role, RoleDocument } from './schemas/role.schema';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { ResponseHelper } from '../../common/helpers/response.helper';
-import { UpdateRoleDto } from './dto/update-role.dto'
+import { UpdateRoleDto } from './dto/update-role.dto';
 
 @Injectable()
 export class RolesService {
@@ -45,7 +45,7 @@ export class RolesService {
     async findOne( id: string ) {
         const role = await this.roleModel.findById(id);
         if(!role){
-            throw new NotFoundException('Rol no encontrado');
+            throw new NotFoundException('Rol no encontrado.');
         }
         return ResponseHelper.success(role,);
         /**
@@ -56,7 +56,7 @@ export class RolesService {
     async update(id: string, dto:UpdateRoleDto){
         const role = await this.roleModel.findById(id)
         if(!role){
-            throw new NotFoundException('Rol no encontrado');
+            throw new NotFoundException('Rol no encontrado.');
         }
         const updateRole = await this.roleModel.findByIdAndUpdate(id, dto, {new: true})
         return ResponseHelper.success(updateRole);
@@ -65,7 +65,7 @@ export class RolesService {
     async partialUpdate( id: string, dto: UpdateRoleDto){
         const role= await this.roleModel.findById(id);
         if(!role){
-            throw new NotFoundException('Rol no encontrado');
+            throw new NotFoundException('Rol no encontrado.');
         }
         const updatedRole= await this.roleModel.findByIdAndUpdate(id, {$set:dto},{new:true});
         return ResponseHelper.success(updatedRole)
@@ -78,7 +78,7 @@ export class RolesService {
     async remove(id: string){
         const role= await this.roleModel.findById(id);
         if (!role) {
-            throw new NotFoundException('Rol no encontrado');
+            throw new NotFoundException('Rol no encontrado.');
         }
 
         const deletedRole= await this.roleModel.findByIdAndUpdate(id, {activo: false,}, {new: true});
@@ -97,10 +97,11 @@ export class RolesService {
     async restore (id: string){
         const role= await this.roleModel.findById(id);
         if (!role) {
-            throw new NotFoundException('Rol no encontrado');
+            throw new NotFoundException('Rol no encontrado.');
         }
 
         const restoreRole = await this.roleModel.findByIdAndUpdate(id, {activo: true,}, {new: true});
         return ResponseHelper.success(restoreRole)
-    } 
+    }
 }
+
